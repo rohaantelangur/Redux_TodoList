@@ -1,32 +1,51 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { GT } from "../../redux/actionCreater";
-import { Link } from "react-router-dom";
+import { GTR, GTS, GTF, RTR, RTS, RTF, UTF, UTS, UTR } from "../../redux/actionCreater";
+import { Link, useNavigate } from "react-router-dom";
 
 export const TodosList = () => {
   const todos = useSelector((state) => state.todo);
   // console.log(todos);
+  const navigate = useNavigate()
   const dispacher = useDispatch();
+  const isRemLoad = useSelector((store)=>store.isRemLoad)
+  const isUpLoad = useSelector((store)=>store.isUpLoad)
 
   const getTodos = () => {
-    axios.get("http://localhost:8080/todos").then((res) => {
-      dispacher(GT(res.data));
-    });
-  };
-
-  const handleCheck = (item) => {
+    dispacher(GTR());
     axios
-      .patch(`http://localhost:8080/todos/${item.id}`, { isCom: !item.isCom })
+      .get("http://localhost:8080/todos")
       .then((res) => {
-        getTodos();
+        dispacher(GTS(res.data));
+      })
+      .catch((err) => {
+        dispacher(GTF());
       });
   };
 
+  const handleCheck = (item) => {
+    dispacher(UTR());
+    axios
+      .patch(`http://localhost:8080/todos/${item.id}`, { isCom: !item.isCom })
+      .then((res) => {
+        dispacher(UTS());
+        getTodos();
+
+      }).catch((err)=>{
+        dispacher(UTF());
+      })
+  };
+
   const handledel = (item) => {
-    axios.delete(`http://localhost:8080/todos/${item.id}`).then((res) => {
+    dispacher(RTR());
+    axios.delete(`http://localhost:8080/todos/${item.id}`)
+    .then((res) => {
+    dispacher(RTS());
       getTodos();
-    });
+    }).catch((err)=>{
+    dispacher(RTF());
+    })
   };
 
   useEffect(() => {
@@ -34,7 +53,7 @@ export const TodosList = () => {
   }, []);
 
   return (
-    <div className="container w-50">
+    <div className="container w-50" >
       {todos.map((item) => {
         return (
           <div
@@ -45,21 +64,29 @@ export const TodosList = () => {
             }
             key={item.id}
           >
+            {isUpLoad? 
+          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          : 
             <input
-              type="checkbox"
-              checked={item.isCom ? true : false}
-              onChange={() => handleCheck(item)}
+            type="checkbox"
+            checked={item.isCom ? true : false}
+            onChange={() => handleCheck(item)}
             />
+          }
             <h5>{item.title}</h5>
             <div>
-              <Link to={`/todo/${item.id}`}>
-                <button className="btn btn-primary mx-3">Edit</button>
-              </Link>
+              
+                <button className="btn btn-info " onClick={()=>{navigate(`/todo/${item.id}`)}}>Show</button>
+                <button className="btn btn-primary mx-3" onClick={()=>{navigate(`/todo/${item.id}/edit`)}}>Edit</button>
+              
               <button
                 className="btn btn-danger"
                 onClick={() => handledel(item)}
               >
-                Remove
+                {isRemLoad? 
+          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          : "Remove"}
+                
               </button>
             </div>
           </div>

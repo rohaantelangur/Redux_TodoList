@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { ETF, ETR, ETS } from "../../redux/actionCreater";
 
 export const EditTodo = () => {
   const { id } = useParams();
+  const navigate = useNavigate()
+  const isEditLoad = useSelector((store)=>store.isEditLoad)
+  const isEditErr = useSelector((store)=>store.isEditErr)
+  const dispacher = useDispatch();
+
+
   // console.log(id);
 
   const [newtitle, setnewtitle] = useState("");
@@ -14,9 +22,14 @@ export const EditTodo = () => {
   };
 
   const handleClick = () => {
+    dispacher(ETR());
     axios
       .patch(`http://localhost:8080/todos/${id}`, { title: newtitle })
-      .then((res) => console.log(res));
+      .then((res) => 
+    dispacher(ETS())
+    ).catch((err=>{
+    dispacher(ETF());
+    }))
   };
 
   useEffect(() => {
@@ -26,27 +39,34 @@ export const EditTodo = () => {
   }, []);
 
   return (
+    <>
     <div className="d-flex justify-content-center">
-      {/* <h3>Edit Your Todo</h3> */}
-      {/* <input type="text" value={newtitle} onChange={handleChange}/>
-      <button onClick={handleClick} >Edit</button> */}
-      <div class="input-group m-3 w-25">
+    {isEditErr? "Error" :
+    <div className="input-group m-3 w-25">
         <input
-          type="text"
-          value={newtitle} 
-          onChange={handleChange}
-          class="form-control"
+        type="text"
+        value={newtitle} 
+        onChange={handleChange}
+          className="form-control"
           aria-describedby="button-addon2"
-        />
+          />
         <button
-          class="btn btn-outline-success"
-          type="button"
-          id="button-addon2"
-          onClick={handleClick}
+        className="btn btn-outline-success"
+        type="button"
+        id="button-addon2"
+        onClick={handleClick}
         >
-          Edit
-        </button>
-      </div>
-    </div>
+        
+        {isEditLoad? 
+          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          : "Edit"}
+          </button>
+          </div>
+        }
+          </div>
+        <div className="d-grid gap-2 col-2 mx-auto">
+          <button className="btn btn-success" onClick={()=>{navigate("/")}}>Home</button>
+        </div>
+          </>
   );
 };
