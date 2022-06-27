@@ -6,9 +6,9 @@ import { GTR, GTS, GTF, ATR, ATF, ATS } from "../../redux/actionCreater";
 export const TodoInput = () => {
   const [title, settitle] = useState("");
   const dispacher = useDispatch();
-  const isAddLoad = useSelector((store)=>store.isAddLoad)
+  const isAddLoad = useSelector((store)=>store.Reducer.isAddLoad)
   
-  const isAddErr = useSelector((store)=>store.isAddErr)
+  const isAddErr = useSelector((store)=>store.Reducer.isAddErr)
   const handleChange = (e) => {
     settitle(e.target.value);
   };

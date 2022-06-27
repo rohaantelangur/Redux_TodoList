@@ -19,13 +19,6 @@ const initalState={
 
 export const Reducer = (state = initalState, {type, payload}) => {
   switch (type) {
-    case INCREMATE:{
-        return (state + payload)
-    }
-    case DECREMATE:{
-        if(state!==0) return (state - payload)
-    }
-
     case GET_TODO_REQUEST:{
         return{ ...state, isLoading: true };
     }

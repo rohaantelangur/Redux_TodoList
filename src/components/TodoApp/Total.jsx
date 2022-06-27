@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 export const Total = () => {
-    const todos = useSelector((state)=>state.todo)
+    const todos = useSelector((state)=>state.Reducer.todo)
     const [todocount, settodocount] = useState(todos.length)
 
     let comp = 0

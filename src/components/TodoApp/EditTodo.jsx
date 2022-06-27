@@ -7,8 +7,8 @@ import { ETF, ETR, ETS } from "../../redux/actionCreater";
 export const EditTodo = () => {
   const { id } = useParams();
   const navigate = useNavigate()
-  const isEditLoad = useSelector((store)=>store.isEditLoad)
-  const isEditErr = useSelector((store)=>store.isEditErr)
+  const isEditLoad = useSelector((store)=>store.Reducer.isEditLoad)
+  const isEditErr = useSelector((store)=>store.Reducer.isEditErr)
   const dispacher = useDispatch();
 
 

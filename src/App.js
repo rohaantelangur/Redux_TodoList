@@ -8,6 +8,7 @@ import { EditTodo } from "./components/TodoApp/EditTodo";
 import { Total } from "./components/TodoApp/Total";
 import { Login } from "./components/Login";
 import { ShowTodo } from "./components/TodoApp/ShowTodo";
+import  RequAuth  from "./HOF/RequAuth";
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<RequAuth><Home /></RequAuth>} />
         <Route path="/todo/:id" element={<ShowTodo />} />
         <Route path="/todo/:id/edit" element={<EditTodo />} />
         <Route path="/total" element={<Total />}/>

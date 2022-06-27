@@ -5,12 +5,12 @@ import { GTR, GTS, GTF, RTR, RTS, RTF, UTF, UTS, UTR } from "../../redux/actionC
 import { Link, useNavigate } from "react-router-dom";
 
 export const TodosList = () => {
-  const todos = useSelector((state) => state.todo);
+  const todos = useSelector((state) => state.Reducer.todo);
   // console.log(todos);
   const navigate = useNavigate()
   const dispacher = useDispatch();
-  const isRemLoad = useSelector((store)=>store.isRemLoad)
-  const isUpLoad = useSelector((store)=>store.isUpLoad)
+  const isRemLoad = useSelector((store)=>store.Reducer.isRemLoad)
+  const isUpLoad = useSelector((store)=>store.Reducer.isUpLoad)
 
   const getTodos = () => {
     dispacher(GTR());
