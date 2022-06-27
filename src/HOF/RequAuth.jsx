@@ -10,12 +10,7 @@ const RequAuth = ({children}) => {
         pathname: location.pathname,
       };
 
-    if(isAuth) {
-      console.log("Home")
-      return children
-    };
-    
-    
+    if(isAuth) return children;
     return <Navigate to={"/login"} state={from} replace />
 }
 

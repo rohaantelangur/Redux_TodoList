@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<RequAuth><Home /></RequAuth>} />
         <Route path="/todo/:id" element={<ShowTodo />} />
         <Route path="/todo/:id/edit" element={<EditTodo />} />
-        <Route path="/total" element={<Total />}/>
+        <Route path="/total" element={<RequAuth><Total /></RequAuth>}/>
         <Route path="/login" element={<Login />}/>
       </Routes>
     </div>
